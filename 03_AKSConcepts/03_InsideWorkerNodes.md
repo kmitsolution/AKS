@@ -1,14 +1,31 @@
 # Inside Worker node -AKS
 <img width="499" alt="image" src="https://github.com/kmitsolution/AKS/assets/84008107/38bf7df5-7be4-4861-ba26-4230356622c9">
 
-Inside a worker node in an Azure Kubernetes Service (AKS) cluster, several components are typically present to facilitate the execution of Kubernetes workloads:
 
+Inside a worker node in an Azure Kubernetes Service (AKS) cluster, several components are typically present to facilitate the execution of Kubernetes workloads:
+### node -shell
+```
+  kubectl get nodes
+  curl -LO https://github.com/kvaps/kubectl-node-shell/raw/master/kubectl-node_shell
+  chmod +x ./kubectl-node_shell
+  sudo mv ./kubectl-node_shell /usr/local/bin/kubectl-node_shell
+  kubectl node-shell aks-nodepool1-87052983-vmss000000
+
+```
 1. **Container Runtime**: This is the software responsible for running containers on the node. In AKS, Docker was commonly used as the container runtime, but starting with Kubernetes version 1.20, containerd is used by default.
 
-2. **kubelet**: The kubelet is an agent that runs on each node in the cluster. It is responsible for ensuring that containers are running in a Pod. It communicates with the Kubernetes control plane to manage the Pods assigned to the node.
+   ```
+     crictl images
+   ```
 
-3. **kube-proxy**: The kube-proxy is a network proxy that runs on each node in the cluster. It maintains network rules (iptables in Linux) required to implement Kubernetes Service abstraction. These rules allow network communication to your Pods from network sessions inside or outside of your cluster.
+3. **kubelet**: The kubelet is an agent that runs on each node in the cluster. It is responsible for ensuring that containers are running in a Pod. It communicates with the Kubernetes control plane to manage the Pods assigned to the node.
 
+4. **kube-proxy**: The kube-proxy is a network proxy that runs on each node in the cluster. It maintains network rules (iptables in Linux) required to implement Kubernetes Service abstraction. These rules allow network communication to your Pods from network sessions inside or outside of your cluster.                          
+```
+kube proxy
+# To find the kubelet information
+curl -sSL "http://localhost:8001/api/v1/nodes/aks-nodepool1-87052983-vmss000000/proxy/configz"
+```
 4. **Pod Infrastructure**: Each node has infrastructure components necessary for running Pods, such as network namespaces, the container runtime environment, and mounts for shared volumes.
 
 5. **Networking**: Networking components facilitate communication between Pods running on the node and between nodes in the cluster. This includes CNI (Container Networking Interface) plugins responsible for managing Pod networking and providing network connectivity to Pods.

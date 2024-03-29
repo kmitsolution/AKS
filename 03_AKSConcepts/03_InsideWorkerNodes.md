@@ -18,9 +18,35 @@ Inside a worker node in an Azure Kubernetes Service (AKS) cluster, several compo
      crictl images
    ```
 
-3. **kubelet**: The kubelet is an agent that runs on each node in the cluster. It is responsible for ensuring that containers are running in a Pod. It communicates with the Kubernetes control plane to manage the Pods assigned to the node.
+2. **kubelet**: The kubelet is an agent that runs on each node in the cluster. It is responsible for ensuring that containers are running in a Pod. It communicates with the Kubernetes control plane to manage the Pods assigned to the node.
+3. **konnectivity agent**
 
-4. **kube-proxy**: The kube-proxy is a network proxy that runs on each node in the cluster. It maintains network rules (iptables in Linux) required to implement Kubernetes Service abstraction. These rules allow network communication to your Pods from network sessions inside or outside of your cluster.                          
+<img width="951" alt="image" src="https://github.com/kmitsolution/AKS/assets/84008107/dc3b2e0c-7665-41d4-bde5-1024658e6107">\
+
+```
+    #Create a pod
+    kubectl run pod1 --image nginx
+    kubectl get pods
+    #find the logs of the pod
+    kubectl logs pod1 
+    #find konnectivity agent deploy
+    kubectl get deploy -n kube-system
+    kubectl get nodes
+    #cordon the nodes
+    kubectl cordon aks-nodepool1-87052983-vmss000002 aks-nodepool1-87052983-vmss000003
+    kubectl get nodes
+    #find the konnectivity agent pods and delete them
+    kubectl get pods -n kube-system
+    kubectl delete pod konnectivity-agent-6985d77d69-vp66m konnectivity-agent-6985d77d69-x9n65 -n kube-system
+    kubectl get pods -n kube-system
+    # now we will not able to see the logs of Pod1
+    kubectl logs pod1
+    #uncordon the nodes and check the logs again   
+    kubectl uncordon aks-nodepool1-87052983-vmss000002 aks-nodepool1-87052983-vmss000003
+    kubectl logs pod1
+```
+
+5. **kube-proxy**: The kube-proxy is a network proxy that runs on each node in the cluster. It maintains network rules (iptables in Linux) required to implement Kubernetes Service abstraction. These rules allow network communication to your Pods from network sessions inside or outside of your cluster.                          
 ```
 kube proxy
 # To find the kubelet information

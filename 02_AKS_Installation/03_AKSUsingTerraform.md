@@ -1,3 +1,6 @@
+# AKS Cluster creation using Terraform
+
+```
 # terraform {
 #   required_providers {
 #     azurerm = {
@@ -97,3 +100,4 @@ resource "azurerm_kubernetes_cluster" "aks" {
 #   value = azurerm_kubernetes_cluster.aks.kube_config_raw
 # }
 
+```

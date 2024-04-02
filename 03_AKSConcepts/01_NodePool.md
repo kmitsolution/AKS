@@ -34,3 +34,25 @@ Replace `yourNodePoolName` with your desired node pool name.
 These commands will create a node pool with the specified label (`env=prod`) and deploy nodes across availability zones `zone1` and `zone2` within the `eastus` region for your AKS cluster.
 
 Please make sure you have the necessary permissions and that your AKS cluster supports availability zones. Additionally, note that enabling availability zones might incur additional costs.
+
+
+To delete a node pool from an Azure Kubernetes Service (AKS) cluster, you can use the `az aks nodepool delete` command. Here's the syntax:
+
+```bash
+az aks nodepool delete --name <node-pool-name> --cluster-name <cluster-name> --resource-group <resource-group-name> --yes
+```
+
+Replace the placeholders with your specific values:
+- `<node-pool-name>`: The name of the node pool you want to delete.
+- `<cluster-name>`: The name of your AKS cluster.
+- `<resource-group-name>`: The name of the resource group containing your AKS cluster.
+
+
+
+For example, if you have a node pool named `np1`, an AKS cluster named `myAKSCluster`, and a resource group named `myResourceGroup`, the command would look like this:
+
+```bash
+az aks nodepool delete --name np1 --cluster-name myAKSCluster --resource-group myResourceGroup 
+```
+
+Please make sure to double-check the node pool name, AKS cluster name, and resource group name before running the command, as it will permanently delete the specified node pool and its associated resources.

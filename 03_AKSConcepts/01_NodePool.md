@@ -22,27 +22,11 @@ Overall, node pools in AKS offer flexibility, manageability, and cost efficiency
 ## Create a user defined node Pool
 To create a node pool with labels `env=prod` and deploy nodes across specific availability zones (`zone1` and `zone2`) within the `eastus` region for an AKS cluster named `akscluster`, you can use the following Azure CLI commands:
 
-1. First, set the desired availability zones for the AKS cluster:
+create the node pool with the specified label and availability zones:
 
 ```bash
-az aks update --name akscluster --resource-group aksgroup --enable-vmss --zones 1 2 --no-wait
-```
+az aks nodepool add --resource-group aksgroup --cluster-name akscluster --name yourNodePoolName --labels env=prod --zones 1 2 --enable-cluster-autoscaler --min-count 1 --max-count 3   --no-wait
 
-Replace `YourResourceGroup` with the name of your resource group.
-
-2. Then, create the node pool with the specified label and availability zones:
-
-```bash
-az aks nodepool add \
-    --resource-group aksgroup \
-    --cluster-name akscluster \
-    --name custom-nodepool \
-    --labels env=prod \
-    --zones 1 2 \
-    --enable-cluster-autoscaler \
-    --min-count 1 \
-    --max-count 3 \
-    --no-wait
 ```
 
 Replace `yourNodePoolName` with your desired node pool name.

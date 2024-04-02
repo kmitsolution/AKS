@@ -1,6 +1,8 @@
 
 In Azure Kubernetes Service (AKS), when you create a cluster, you have the option to choose a network plugin that defines how networking is implemented within the cluster. One of the network plugins available in AKS is the "kubenet" plugin.
 
+<img width="938" alt="image" src="https://github.com/kmitsolution/AKS/assets/84008107/d8900f64-f989-4f57-b00d-f1d035a4c26c">
+
 
 <img width="862" alt="image" src="https://github.com/kmitsolution/AKS/assets/84008107/5432bf0c-5d34-47aa-83a3-c5a2a1f19f6e">
 

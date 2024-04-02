@@ -25,7 +25,7 @@ To create a node pool with labels `env=prod` and deploy nodes across specific av
 1. First, set the desired availability zones for the AKS cluster:
 
 ```bash
-az aks update --name akscluster --resource-group YourResourceGroup --enable-vmss --zones 1 2 --no-wait
+az aks update --name akscluster --resource-group aksgroup --enable-vmss --zones 1 2 --no-wait
 ```
 
 Replace `YourResourceGroup` with the name of your resource group.

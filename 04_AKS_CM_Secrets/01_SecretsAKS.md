@@ -30,7 +30,7 @@ kubectl get pods -n kube-system -l app=secrets-store-provider-azure
 ```
 
 ## Verify system-assigned identity on VMs
-Enable the ```identity``` in the vmss. Verify that your virtual machine scale set or availability set nodes have their own system-assigned identity:
+Enable the ```identity``` in the vmss(select vmss of aks cluster-->Identity-->System Assigned and Trun it on, it will show the principalid . Verify that your virtual machine scale set or availability set nodes have their own system-assigned identity:
 
 ```
 az vmss identity show -g MC_akscluster-rg_aksdcluster_eastus -n aks-agentpool-32528728-vmss -o yaml
@@ -40,7 +40,7 @@ az vmss identity show -g MC_akscluster-rg_aksdcluster_eastus -n aks-agentpool-32
 ## Assigns Permissions
 To grant your identity permissions that enable it to read your key vault and view its contents, run the following commands:
 ```
-Azure Conosole Goto KeyVault --> aksdemocluster-kv321 --> Add Access Policies --> Give permission to VMSS principal id
+Azure Conosole Goto KeyVault --> aksdemocluster-kv321 --> Add Access Policies --> Give permission to VMSS principal id(The one which is created in a step above)
 # set policy to access secrets in your key vault 
 az keyvault set-policy -n <keyvault-name> — secret-permissions get — spn <identity-principal-id>
 ```

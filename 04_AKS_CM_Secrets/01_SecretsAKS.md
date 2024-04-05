@@ -59,7 +59,7 @@ spec:
     usePodIdentity: "false"
     useVMManagedIdentity: "true"    # Set to true for using managed identity
     userAssignedIdentityID: ""      # If empty, then defaults to use the system assigned identity on the VM
-    keyvaultName: aksdemocluster-kv321
+    keyvaultName: aksdemocluster-kv3214
     cloudName: "AzurePublicCloud"                   # [OPTIONAL for Azure] if not provided, the Azure environment defaults to AzurePublicCloud
     objects:  |
       array:
@@ -84,11 +84,9 @@ metadata:
   name: busybox-secrets-store-inline-system-msi
 spec:
   containers:
-    - name: busybox
-      image: k8s.gcr.io/e2e-test-images/busybox:1.29-1
-      command:
-        - "/bin/sleep"
-        - "10000"
+    - name: nginx-secret
+      image: nginx
+     
       volumeMounts:
       - name: secrets-store01-inline
         mountPath: "/mnt/secrets-store"
@@ -99,7 +97,7 @@ spec:
         driver: secrets-store.csi.k8s.io
         readOnly: true
         volumeAttributes:
-          secretProviderClass: "XXXXXXXXX"
+          secretProviderClass: "azure-kvname-system-msi"
 ```
 
 ## Validate the secrets

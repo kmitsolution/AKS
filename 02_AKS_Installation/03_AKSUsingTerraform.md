@@ -1,5 +1,8 @@
 # AKS Cluster creation using Terraform
 
+1. Create application registration (say terraform) Select EntraId resource and create AppRegistration with a Client Secret
+2. Goto Subscription and give contributor role to the terraform app registration.
+
 ```
 # terraform {
 #   required_providers {

@@ -4,7 +4,7 @@ Managing secrets and using secrets in the Azure Kubernetes environment is a very
 
 Azure supports the possibility to get secrets into an Azure key Vault, from AKS, by using the Secret Store CSI (Container Storage Interface) Driver. AKS clusters may need to store and retrieve secrets, keys, and certificates. The Secrets Store CSI Driver provides cluster support to integrate with Key Vault. When enabled and configured secrets, keys, and certificates can be securely accessed from a pod. In this article, we will discuss a secure way of using secrets that are stored in Azure Key Vault into your Azure Kubernetes Cluster(AKS).
 
-## Create Azure Key-Vault and Secret
+## Create Azure Key-Vault and Secret (Role will be keyvault Administrator for the user)
 To create an Azure Key Vault and add a secret you need to run the following commands.
 
 ```

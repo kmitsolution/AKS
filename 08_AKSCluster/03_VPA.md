@@ -115,7 +115,7 @@ Then, you applied your `vpa.yaml` — which contains both the **Deployment** and
 
 Let’s analyze your configuration piece by piece:
 
-### **VerticalPodAutoscaler Object**
+### **VerticalPodAutoscaler Object and Deployment Objects**
 
 ```yaml
 apiVersion: "autoscaling.k8s.io/v1"
@@ -137,28 +137,15 @@ spec:
           cpu: 1
           memory: 500Mi
         controlledResources: ["cpu", "memory"]
-```
-
-**What this means:**
-
-* Targets the **`hamster` deployment**
-* VPA will manage both **CPU and memory** for all containers (`containerName: '*'`)
-* Minimum allowed CPU: **100m (0.1 core)**
-* Maximum allowed CPU: **1 core (1000m)**
-* Minimum memory: **50Mi**, maximum **500Mi**
-
-So, the VPA can adjust resources dynamically *within that range*.
-
 ---
-
-### **Deployment Object**
-
-```yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: hamster
 spec:
+  selector:
+    matchLabels:
+      app: hamster
   replicas: 2
   template:
     metadata:
@@ -180,6 +167,18 @@ spec:
             - "-c"
             - "while true; do timeout 0.5s yes >/dev/null; sleep 0.5s; done"
 ```
+
+**What this means:**
+
+* Targets the **`hamster` deployment**
+* VPA will manage both **CPU and memory** for all containers (`containerName: '*'`)
+* Minimum allowed CPU: **100m (0.1 core)**
+* Maximum allowed CPU: **1 core (1000m)**
+* Minimum memory: **50Mi**, maximum **500Mi**
+
+So, the VPA can adjust resources dynamically *within that range*.
+
+---
 
 This is a **CPU-stressing workload** (a small bash loop generating CPU spikes).
 The `timeout yes >/dev/null` loop simulates load that will trigger VPA recommendations.

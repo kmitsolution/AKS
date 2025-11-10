@@ -1,4 +1,4 @@
-Perfect — you’ve summarized **Vertical Pod Autoscaler (VPA)** very well 👏.
+
 Let’s turn that into a **complete, structured overview and practical guide**, including:
 
 * Core concepts

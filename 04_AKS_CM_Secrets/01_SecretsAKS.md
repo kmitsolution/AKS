@@ -6,7 +6,7 @@ Azure supports the possibility to get secrets into an Azure key Vault, from AKS,
 
 ## Create Azure Key-Vault and Secret (Role will be keyvault Administrator for the user)
 1. Create a keyvault say aksdemocluster-kv3214 with permission model as Vault Access Policies
-2. Once it is created then create a secret inside it mysql-password with some value
+2. Once it is created then create a secret inside it mysql_password with some value
 ## Enable Secrets Store CSI Driver support
 To upgrade an existing AKS cluster with Azure Key Vault Provider for Secrets Store CSI Driver capability run the following command:
 ```

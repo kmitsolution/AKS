@@ -5,16 +5,8 @@ Managing secrets and using secrets in the Azure Kubernetes environment is a very
 Azure supports the possibility to get secrets into an Azure key Vault, from AKS, by using the Secret Store CSI (Container Storage Interface) Driver. AKS clusters may need to store and retrieve secrets, keys, and certificates. The Secrets Store CSI Driver provides cluster support to integrate with Key Vault. When enabled and configured secrets, keys, and certificates can be securely accessed from a pod. In this article, we will discuss a secure way of using secrets that are stored in Azure Key Vault into your Azure Kubernetes Cluster(AKS).
 
 ## Create Azure Key-Vault and Secret (Role will be keyvault Administrator for the user)
-To create an Azure Key Vault and add a secret you need to run the following commands.
-
-```
-#To Create KeyVault
-az keyvault create --name aksdemocluster-kv321 --resource-group aksgroup --location eastus
-
-# To Create Secret inside the keyVault
-az keyvault secret set --vault-name aksdemocluster-kv321 --name mysql-password --value Test123
-```
-
+1. Create a keyvault say aksdemocluster-kv3214 with permission model as Vault Access Policies
+2. Once it is created then create a secret inside it mysql-password with some value
 ## Enable Secrets Store CSI Driver support
 To upgrade an existing AKS cluster with Azure Key Vault Provider for Secrets Store CSI Driver capability run the following command:
 ```
@@ -40,7 +32,7 @@ az vmss identity show -g MC_akscluster-rg_aksdcluster_eastus -n aks-agentpool-32
 ## Assigns Permissions
 To grant your identity permissions that enable it to read your key vault and view its contents, run the following commands:
 ```
-Azure Conosole Goto KeyVault --> aksdemocluster-kv321 --> Add Access Policies --> Give permission to VMSS principal id(The one which is created in a step above)
+Azure Conosole Goto KeyVault --> aksdemocluster-kv321 --> Add Access Policies --> Give permission to VMSS principal id(The one which is created in a step above) or Infrastructure Group get azurekeyvaultsecretsprovider-akscluster
 # set policy to access secrets in your key vault 
 az keyvault set-policy -n <keyvault-name> — secret-permissions get — spn <identity-principal-id>
 ```
@@ -48,7 +40,6 @@ az keyvault set-policy -n <keyvault-name> — secret-permissions get — spn <id
 ## Create Secret Provider Class
 Now it’s time to actually get secrets from the Key Vault. We have to be explicit define and create a Secret Provider Class, where we define all the secrets we need to import from the Key Vault.
 ```
-# This is a SecretProviderClass example using system-assigned identity to access your key vault
 apiVersion: secrets-store.csi.x-k8s.io/v1
 kind: SecretProviderClass
 metadata:
@@ -58,7 +49,7 @@ spec:
   parameters:
     usePodIdentity: "false"
     useVMManagedIdentity: "true"    # Set to true for using managed identity
-    userAssignedIdentityID: ""      # If empty, then defaults to use the system assigned identity on the VM
+    userAssignedIdentityID: "33123dab-94e0-47a6-9249-fdbee54f08e0"      # Take the assigned value vmss-->security--Identity-->useradentity and click on it and use client-id
     keyvaultName: aksdemocluster-kv3214
     cloudName: "AzurePublicCloud"                   # [OPTIONAL for Azure] if not provided, the Azure environment defaults to AzurePublicCloud
     objects:  |
@@ -67,7 +58,7 @@ spec:
           objectName: mysql-password
           objectType: secret        # object types: secret, key, or cert
           objectVersion: ""         # [OPTIONAL] object versions, default to latest if empty
-    tenantId: XXXXXXXXXXXX          # The Directory ID of the key vault
+    tenantId: 120709b9-1cde-4a68-944a-f6fb5b566112          # The Directory ID of the key vault
 ```
 ```
 kubectl get secretproviderclass
